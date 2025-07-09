@@ -47,44 +47,40 @@
                 <!-- 3. Region Price Indicator -->
                 <div class="region-price-indicator me-2">
                     <button class="btn btn-outline-primary btn-sm" id="regionPriceBtnMobile" onclick="openRegionModal()">
-                        <i class="bi bi-building"></i>
+                        <i class="bi bi-buildings"></i>
                     </button>
                 </div>
                 
                 <!-- 4. User icon -->
-                <div class="navbar-nav">
+                <div class="d-flex align-items-center">
                     <?php if (isUserLoggedIn()): ?>
-                        <div class="user-info d-flex align-items-center">
-                            <div class="dropdown">
-                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
-                                    <i class="bi bi-person-circle fs-5"></i>
-                                </a>
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="profile.php">
-                                        <i class="bi bi-person me-2"></i>Profile
-                                    </a></li>
-                                    <li><a class="dropdown-item" href="my-bookings.php">
-                                        <i class="bi bi-calendar-check me-2"></i>My Bookings
-                                    </a></li>
-                                    <?php if (isAdminUser()): ?>
-                                        <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="admin/index.php">
-                                            <i class="bi bi-speedometer2 me-2"></i>Admin Panel
-                                        </a></li>
-                                    <?php endif; ?>
+                        <div class="dropdown">
+                            <button class="btn btn-link p-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle fs-4 text-primary"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="profile.php">
+                                    <i class="bi bi-person me-2"></i>Profile
+                                </a></li>
+                                <li><a class="dropdown-item" href="my-bookings.php">
+                                    <i class="bi bi-calendar-check me-2"></i>My Bookings
+                                </a></li>
+                                <?php if (isAdminUser()): ?>
                                     <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" href="logout.php">
-                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                    <li><a class="dropdown-item" href="admin/index.php">
+                                        <i class="bi bi-speedometer2 me-2"></i>Admin Panel
                                     </a></li>
-                                </ul>
-                            </div>
+                                <?php endif; ?>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" href="logout.php">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a></li>
+                            </ul>
                         </div>
                     <?php else: ?>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#" onclick="openMobileLoginModal()">
-                                <i class="bi bi-person-circle fs-4"></i>
-                            </a>
-                        </li>
+                        <button class="btn btn-link p-0" onclick="openMobileLoginModal()">
+                            <i class="bi bi-person-circle fs-4 text-primary"></i>
+                        </button>
                     <?php endif; ?>
                 </div>
             </div>
@@ -111,35 +107,58 @@
                         <a class="nav-link" href="<?php echo SITE_URL; ?>/services.php">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-none d-lg-block" href="<?php echo SITE_URL; ?>/therapies.php">Therapies</a>
+                        <a class="nav-link" href="<?php echo SITE_URL; ?>/therapies.php">Therapies</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-none d-xl-block" href="<?php echo SITE_URL; ?>/about.php">About</a>
+                        <a class="nav-link" href="<?php echo SITE_URL; ?>/about.php">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link d-none d-xl-block" href="<?php echo SITE_URL; ?>/contact.php">Contact</a>
+                        <a class="nav-link" href="<?php echo SITE_URL; ?>/contact.php">Contact</a>
                     </li>
-                    <!-- Mobile dropdown for hidden items -->
-                    <li class="nav-item dropdown d-lg-none">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            More
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?php echo SITE_URL; ?>/therapies.php">Therapies</a></li>
-                            <li><a class="dropdown-item" href="<?php echo SITE_URL; ?>/about.php">About</a></li>
-                            <li><a class="dropdown-item" href="<?php echo SITE_URL; ?>/contact.php">Contact</a></li>
-                        </ul>
-                    </li>
-                    <!-- Tablet dropdown for some hidden items -->
-                    <li class="nav-item dropdown d-none d-lg-block d-xl-none">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="bi bi-three-dots"></i>
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?php echo SITE_URL; ?>/about.php">About</a></li>
-                            <li><a class="dropdown-item" href="<?php echo SITE_URL; ?>/contact.php">Contact</a></li>
-                        </ul>
-                    </li>
+                    
+                    <!-- Mobile-only user menu items (when not logged in) -->
+                    <?php if (!isUserLoggedIn()): ?>
+                        <li class="nav-item d-lg-none">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="<?php echo SITE_URL; ?>/login.php">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+                            </a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="<?php echo SITE_URL; ?>/signup.php">
+                                <i class="bi bi-person-plus me-2"></i>Sign Up
+                            </a>
+                        </li>
+                    <?php else: ?>
+                        <!-- Mobile-only user menu items (when logged in) -->
+                        <li class="nav-item d-lg-none">
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="profile.php">
+                                <i class="bi bi-person me-2"></i>Profile
+                            </a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="my-bookings.php">
+                                <i class="bi bi-calendar-check me-2"></i>My Bookings
+                            </a>
+                        </li>
+                        <?php if (isAdminUser()): ?>
+                            <li class="nav-item d-lg-none">
+                                <a class="nav-link" href="admin/index.php">
+                                    <i class="bi bi-speedometer2 me-2"></i>Admin Panel
+                                </a>
+                            </li>
+                        <?php endif; ?>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link" href="logout.php">
+                                <i class="bi bi-box-arrow-right me-2"></i>Logout
+                            </a>
+                        </li>
+                    <?php endif; ?>
                 </ul>
                 
                 <!-- Region Price Indicator (Desktop only) -->
