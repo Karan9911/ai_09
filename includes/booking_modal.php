@@ -50,12 +50,13 @@
                                     <div class="col-md-6">
                                         <label class="form-label">Email *</label>
                                         <input type="email" class="form-control" name="email" required>
-                                        <div class="invalid-feedback">Please provide a valid email.</div>
+                                        <small class="form-text text-muted">Optional - for booking confirmations</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Phone *</label>
                                         <input type="tel" class="form-control" name="phone" pattern="[0-9]{10}" required>
                                         <div class="invalid-feedback">Please provide a valid phone number.</div>
+                                        <small class="form-text text-muted">Required - primary contact method</small>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="form-label">Preferred Date</label>
@@ -98,14 +99,16 @@
                                                    value="<?php echo htmlspecialchars($_SESSION['user_name'] ?? ''); ?>" required>
                                         </div>
                                         <div class="col-md-6">
-                                            <label class="form-label">Email *</label>
+                                            <label class="form-label">Email</label>
                                             <input type="email" class="form-control" name="email" 
-                                                   value="<?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?>" required>
+                                                   value="<?php echo htmlspecialchars($_SESSION['user_email'] ?? ''); ?>">
+                                            <small class="form-text text-muted">Optional - for booking confirmations</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Phone *</label>
                                             <input type="tel" class="form-control" name="phone" 
                                                    value="<?php echo htmlspecialchars($_SESSION['user_phone'] ?? ''); ?>" required>
+                                            <small class="form-text text-muted">Required - primary contact method</small>
                                         </div>
                                         <div class="col-md-6">
                                             <label class="form-label">Booking Date *</label>

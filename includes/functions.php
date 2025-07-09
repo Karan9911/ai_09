@@ -143,19 +143,20 @@ function requireUserLogin() {
 function registerUser($name, $email, $phone, $city, $password) {
     $db = getDB();
     
-    // Check if email or phone already exists
+    // Check if phone already exists (phone is mandatory)
+    $stmt = $db->prepare("SELECT id FROM users WHERE phone = ?");
+    $stmt->execute([$phone]);
+    if ($stmt->fetch()) {
+        return ['success' => false, 'message' => 'Phone number already registered'];
+    }
+    
+    // Check if email already exists (only if email is provided)
     if (!empty($email)) {
         $stmt = $db->prepare("SELECT id FROM users WHERE email = ?");
         $stmt->execute([$email]);
         if ($stmt->fetch()) {
             return ['success' => false, 'message' => 'Email already registered'];
         }
-    }
-    
-    $stmt = $db->prepare("SELECT id FROM users WHERE phone = ?");
-    $stmt->execute([$phone]);
-    if ($stmt->fetch()) {
-        return ['success' => false, 'message' => 'Phone number already registered'];
     }
     
     // Hash password
@@ -191,8 +192,15 @@ function registerUser($name, $email, $phone, $city, $password) {
 function loginUser($email, $password) {
     $db = getDB();
     
-    $stmt = $db->prepare("SELECT id, name, email, phone, city, password, role, status FROM users WHERE email = ? LIMIT 1");
-    $stmt->execute([$email]);
+    // Check if input is email or phone
+    if (validateEmail($email)) {
+        $stmt = $db->prepare("SELECT id, name, email, phone, city, password, role, status FROM users WHERE email = ? LIMIT 1");
+        $stmt->execute([$email]);
+    } else {
+        // Assume it's a phone number
+        $stmt = $db->prepare("SELECT id, name, email, phone, city, password, role, status FROM users WHERE phone = ? LIMIT 1");
+        $stmt->execute([$email]); // $email variable contains phone number in this case
+    }
     
     if ($user = $stmt->fetch()) {
         if ($user['status'] !== 'active') {

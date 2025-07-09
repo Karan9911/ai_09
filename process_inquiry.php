@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Validate required fields
-$required_fields = ['full_name', 'email', 'phone'];
+$required_fields = ['full_name', 'phone'];
 $errors = [];
 
 foreach ($required_fields as $field) {
@@ -33,8 +33,8 @@ $phone = sanitizeInput($_POST['phone']);
 $message = sanitizeInput($_POST['message'] ?? '');
 $preferred_date = sanitizeInput($_POST['preferred_date'] ?? '');
 
-// Validate email
-if (!validateEmail($email)) {
+// Validate email (only if provided)
+if (!empty($email) && !validateEmail($email)) {
     echo json_encode(['success' => false, 'message' => 'Invalid email format']);
     exit;
 }

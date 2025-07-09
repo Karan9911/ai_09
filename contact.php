@@ -15,9 +15,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $messageText = sanitizeInput($_POST['message'] ?? '');
     
     if (empty($name) || empty($email) || empty($messageText)) {
-        $message = 'Please fill in all required fields.';
+        $message = 'Name, phone, and message are required.';
         $messageType = 'danger';
-    } elseif (!validateEmail($email)) {
+    } elseif (empty($phone)) {
+        $message = 'Phone number is required.';
+        $messageType = 'danger';
+    } elseif (!validatePhone($phone)) {
+        $message = 'Please enter a valid 10-digit phone number.';
+        $messageType = 'danger';
+    } elseif (!empty($email) && !validateEmail($email)) {
         $message = 'Please enter a valid email address.';
         $messageType = 'danger';
     } else {
@@ -82,13 +88,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <div class="invalid-feedback">Please provide your name.</div>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Email Address *</label>
+                                <label class="form-label">Email Address</label>
                                 <input type="email" class="form-control" name="email" value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
-                                <div class="invalid-feedback">Please provide a valid email.</div>
+                                <small class="form-text text-muted">Optional - for our response</small>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label">Phone Number</label>
-                                <input type="tel" class="form-control" name="phone" value="<?php echo htmlspecialchars($phone ?? ''); ?>">
+                                <label class="form-label">Phone Number *</label>
+                                <input type="tel" class="form-control" name="phone" value="<?php echo htmlspecialchars($phone ?? ''); ?>" pattern="[0-9]{10}" required>
+                                <div class="invalid-feedback">Please provide a valid 10-digit phone number.</div>
+                                <small class="form-text text-muted">Required - primary contact method</small>
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">Subject</label>

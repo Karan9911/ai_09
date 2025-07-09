@@ -32,7 +32,7 @@ if (!verifyRazorpayPayment($paymentId, $orderId, $signature)) {
 }
 
 // Validate booking details
-$required_fields = ['therapist_id', 'full_name', 'email', 'phone', 'booking_date', 'booking_time', 'total_amount'];
+$required_fields = ['therapist_id', 'full_name', 'phone', 'booking_date', 'booking_time', 'total_amount'];
 $errors = [];
 
 foreach ($required_fields as $field) {
@@ -56,8 +56,8 @@ $booking_time = sanitizeInput($_POST['booking_time']);
 $message = sanitizeInput($_POST['message'] ?? '');
 $total_amount = (float)$_POST['total_amount'];
 
-// Validate email
-if (!validateEmail($email)) {
+// Validate email (only if provided)
+if (!empty($email) && !validateEmail($email)) {
     echo json_encode(['success' => false, 'message' => 'Invalid email format']);
     exit;
 }

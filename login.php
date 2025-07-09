@@ -62,8 +62,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <label class="form-label">Email or Phone Number</label>
                             <input type="text" class="form-control" name="email" 
                                    value="<?php echo htmlspecialchars($emailOrPhone ?? ''); ?>" 
-                                   placeholder="Enter email or phone number" required>
+                                   placeholder="Enter email or 10-digit phone number" required>
                             <div class="invalid-feedback">Please enter your email or phone number.</div>
+                            <small class="form-text text-muted">You can login with either your email address or phone number</small>
                         </div>
                         
                         <div class="mb-4">

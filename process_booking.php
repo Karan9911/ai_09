@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 //  }
 
 // Validate required fields
-$required_fields = ['therapist_id', 'full_name', 'email', 'phone', 'booking_date', 'booking_time', 'total_amount'];
+$required_fields = ['therapist_id', 'full_name', 'phone', 'booking_date', 'booking_time', 'total_amount'];
 $errors = [];
 
 foreach ($required_fields as $field) {
@@ -58,8 +58,8 @@ if (!in_array($region, ['ncr', 'other'])) {
     $region = 'other'; // Default fallback
 }
 
-// Validate email
-if (!validateEmail($email)) {
+// Validate email (only if provided)
+if (!empty($email) && !validateEmail($email)) {
     echo json_encode(['success' => false, 'message' => 'Invalid email format']);
     exit;
 }

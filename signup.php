@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $password = $_POST['password'] ?? '';
     $confirmPassword = $_POST['confirm_password'] ?? '';
     
-    if (empty($name) || empty($email) || empty($phone) || empty($password)) {
+    if (empty($name) || empty($phone) || empty($password)) {
         $error = 'Name, phone, and password are required';
     } elseif (!empty($email) && !validateEmail($email)) {
         $error = 'Please enter a valid email address';
@@ -87,10 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             
                             <div class="col-md-6">
-                                <label class="form-label">Email Address *</label>
+                                <label class="form-label">Email Address</label>
                                 <input type="email" class="form-control" name="email" 
-                                       value="<?php echo htmlspecialchars($email ?? ''); ?>" required>
-                                <div class="invalid-feedback">Please enter a valid email.</div>
+                                       value="<?php echo htmlspecialchars($email ?? ''); ?>">
+                                <small class="form-text text-muted">Optional - for booking confirmations</small>
                             </div>
                             
                             <div class="col-md-6">

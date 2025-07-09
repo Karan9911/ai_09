@@ -32,12 +32,73 @@
     <?php if (!isset($hideNavbar) || !$hideNavbar): ?>
     <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="<?php echo SITE_URL; ?>">
-                <img src="<?php echo SITE_URL; ?>/uploads/website/logo.png" width="150px">
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <!-- Mobile Layout (visible on mobile only) -->
+            <div class="d-lg-none d-flex align-items-center w-100">
+                <!-- 1. Hamburger menu -->
+                <button class="navbar-toggler me-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <!-- 2. Logo -->
+                <a class="navbar-brand fw-bold text-primary flex-grow-1" href="<?php echo SITE_URL; ?>">
+                    <img src="<?php echo SITE_URL; ?>/uploads/website/logo.png" width="120px">
+                </a>
+                
+                <!-- 3. Region Price Indicator -->
+                <div class="region-price-indicator me-2">
+                    <button class="btn btn-outline-primary btn-sm" id="regionPriceBtnMobile" onclick="openRegionModal()">
+                        <i class="bi bi-building"></i>
+                    </button>
+                </div>
+                
+                <!-- 4. User icon -->
+                <div class="navbar-nav">
+                    <?php if (isUserLoggedIn()): ?>
+                        <div class="user-info d-flex align-items-center">
+                            <div class="dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle fs-5"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="profile.php">
+                                        <i class="bi bi-person me-2"></i>Profile
+                                    </a></li>
+                                    <li><a class="dropdown-item" href="my-bookings.php">
+                                        <i class="bi bi-calendar-check me-2"></i>My Bookings
+                                    </a></li>
+                                    <?php if (isAdminUser()): ?>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="admin/index.php">
+                                            <i class="bi bi-speedometer2 me-2"></i>Admin Panel
+                                        </a></li>
+                                    <?php endif; ?>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="logout.php">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                    </a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" onclick="openMobileLoginModal()">
+                                <i class="bi bi-person-circle fs-4"></i>
+                            </a>
+                        </li>
+                    <?php endif; ?>
+                </div>
+            </div>
+            
+            <!-- Desktop Layout (visible on desktop only) -->
+            <div class="d-none d-lg-flex align-items-center w-100">
+                <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="<?php echo SITE_URL; ?>">
+                    <img src="<?php echo SITE_URL; ?>/uploads/website/logo.png" width="150px">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto ms-3">
                     <li class="nav-item">
@@ -81,8 +142,8 @@
                     </li>
                 </ul>
                 
-                <!-- Region Price Indicator -->
-                <div class="region-price-indicator me-2">
+                <!-- Region Price Indicator (Desktop only) -->
+                <div class="region-price-indicator me-2 d-none d-lg-block">
                     <button class="btn btn-outline-primary btn-sm" id="regionPriceBtn" onclick="openRegionModal()">
                         <i class="bi bi-building me-1"></i>
                         <span id="currentRegionText">Delhi-NCR</span>
@@ -90,7 +151,7 @@
                     </button>
                 </div>
                 
-                <div class="navbar-nav">
+                <div class="navbar-nav d-none d-lg-block">
                     <?php if (isUserLoggedIn()): ?>
                         <div class="user-info d-flex align-items-center">
                             <div class="user-avatar me-2">
@@ -105,9 +166,6 @@
                                                 <i class="bi bi-geo-alt me-1"></i><?php echo htmlspecialchars($_SESSION['user_city']); ?>
                                             </small>
                                         <?php endif; ?>
-                                    </div>
-                                    <div class="d-md-none">
-                                        <i class="bi bi-person-circle fs-5"></i>
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end">
@@ -140,13 +198,6 @@
                         <li class="nav-item d-none d-lg-block">
                             <a class="nav-link btn btn-primary text-white ms-1 px-3" href="<?php echo SITE_URL; ?>/signup.php">
                                 <i class="bi bi-person-plus me-1 d-none d-xl-inline"></i>Sign Up
-                            </a>
-                        </li>
-                        
-                        <!-- Mobile User Icon -->
-                        <li class="nav-item d-lg-none">
-                            <a class="nav-link" href="#" onclick="openMobileLoginModal()">
-                                <i class="bi bi-person-circle fs-4"></i>
                             </a>
                         </li>
                     <?php endif; ?>
